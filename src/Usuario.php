@@ -48,9 +48,53 @@ final class Usuario {
         } 
     }
 
+    
+    public function listarUm():array {
+        $sql = "SELECT * FROM usuarios WHERE id = :id";
+
+        try {
+        $consulta = $this->conexao->prepare($sql);
+        $consulta->bindParam(":id", $this->id, PDO::PARAM_INT);
+        $consulta->execute();
+        $resultado = $consulta->fetch(PDO::FETCH_ASSOC); // fetch porque é um array, não uma matriz
+        } catch (Exception $erro) {
+        die("Erro: ".$erro->getMessage());
+        } 
+        return $resultado;
+    }
+    //Pensando em performance, é melhor passar todos os valores um a um
     public function codificaSenha(string $senha):string {
         return password_hash($senha, PASSWORD_DEFAULT);
     }
+
+        // Usamos a password verify para comparar as duas senhas: a digitada no formulário e a existente no banco
+    public function verificaSenha(string $senhaFormulario, string $senhaBanco):string {
+        if ( password_verify($senhaFormulario, $senhaBanco) ) {
+            // Se forem iguais, mantemos a senha existente no banco
+            return $senhaBanco;
+        } else {
+            // Se forem diferentes, então codificamos a nova senha
+            return $this->codificaSenha($senhaFormulario);
+        }
+    } 
+
+    public function atualizar():void {
+        $sql = "UPDATE usuarios SET nome = :nome, email = :email, senha = :senha, tipo = :tipo WHERE id = :id";
+
+        try {
+            $consulta = $this->conexao->prepare($sql);
+            $consulta->bindParam(":nome", $this->nome, PDO::PARAM_STR);
+            $consulta->bindParam(":email", $this->email, PDO::PARAM_STR);
+            $consulta->bindParam(":senha", $this->senha, PDO::PARAM_STR);
+            $consulta->bindParam(":tipo", $this->tipo, PDO::PARAM_STR);
+            $consulta->bindParam(":id", $this->id, PDO::PARAM_INT);
+            $consulta->execute();
+        } catch (Exception $erro) {
+            die("Erro: ".$erro->getMessage());
+        } 
+    }
+
+    
 
     //getters e setters
     
