@@ -1,6 +1,16 @@
 <?php
+
+use Microblog\ControleDeAcesso;
+
 require_once "../vendor/autoload.php";
-$pagina = basename($_SERVER['PHP_SELF']);
+
+// Criamos objeto para acessar os recursos de sessão do PHP na Classe ControleDeAcesso
+$sessao = new ControleDeAcesso;
+
+// Executamos verificaAcesso para checar se tem alguém logado
+$sessao->verificaAcesso();
+
+$pagina = basename($_SERVER['PHP_SELF']); // Recupera qual página estamos
 ?>
 <!DOCTYPE html>
 <html lang="pt-br" class="h-100">
