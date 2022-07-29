@@ -21,6 +21,7 @@ final class ControleDeAcesso{
         }
     }
 
+
     public function login(int $id, string $nome, string $tipo):void {
         // No momento em que ocorrer o login, adicionamos à sessão variáveis de sessão contendo os dados necessários para o sistema
         
@@ -35,4 +36,13 @@ final class ControleDeAcesso{
         header("location:../login.php?logout");
         die(); // exit
     }
+
+    public function verificaAcessoAdmin():void {
+        if($_SESSION['tipo'] !== 'admin') {
+            header("location:nao-autorizado.php");
+        }
+        
+    }
+
+
 }

@@ -19,3 +19,4 @@ $usuario->excluir();
 
 // Após excluir, redirecionamos para a página de lista de usuários
 header("location:usuarios.php");
+$sessao->verificaAcessoAdmin();

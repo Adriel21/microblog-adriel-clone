@@ -1,4 +1,4 @@
-<?php 
+<?php ;
 Use Microblog\Usuario;
 require_once "../inc/cabecalho-admin.php";
 
@@ -14,6 +14,7 @@ if(isset($_POST['inserir']) ){
 	$usuario->inserir();
 	header(("location:usuarios.php"));
 }
+$sessao->verificaAcessoAdmin();
 
 ?>
 
