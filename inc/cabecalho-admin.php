@@ -36,7 +36,9 @@ $pagina = basename($_SERVER['PHP_SELF']); // Recupera qual página estamos
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <?php 
+    if ($_SESSION['tipo'] == 'admin') { ?>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
             <li class="nav-item">
                 <a class="nav-link" href="index.php">Home</a>
@@ -58,7 +60,7 @@ $pagina = basename($_SERVER['PHP_SELF']); // Recupera qual página estamos
                 <a class="nav-link" href="../index.php" target="_blank">Área pública</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link fw-bold" href=""> <i class="bi bi-x-circle"></i> Sair</a>
+                <a class="nav-link fw-bold" href="?sair"> <i class="bi bi-x-circle"></i> Sair</a>
             </li>
         </ul>
 
@@ -67,6 +69,56 @@ $pagina = basename($_SERVER['PHP_SELF']); // Recupera qual página estamos
 </nav>
 
 </header>
+    <?php } else  { ?>
+         <div class="collapse navbar-collapse" id="navbarSupportedContent">
+         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+             <li class="nav-item">
+                 <a class="nav-link" href="index.php">Home</a>
+             </li>
+             <li class="nav-item">
+                 <a class="nav-link" href="meu-perfil.php">Meu perfil</a>
+             </li>
+             <li class="nav-item">
+             <li class="nav-item">
+                <a class="nav-link" href="noticias.php">Notícias</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="../index.php" target="_blank">Área pública</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link fw-bold" href="?sair"> <i class="bi bi-x-circle"></i> Sair</a>
+            </li>
+        </ul>
+
+    </div>
+  </div>
+</nav>
+
+</header>
+  <?php  } ?>   
+   
+
+
+<?php
+$sessao = new ControleDeAcesso;
+// Se o parâmetro ?sair existir, então faça logout
+if(isset($_GET['sair'])) {
+    $sessao->logout();
+}
+
+?>
+<!-- 
+    if(isset($_GET['sair'])) {
+        // session_destroy();
+        // header('location:login.php');
+        $sessao = new ControleDeAcesso;
+    //     unset($sessao['id']);
+    session_start();
+    session_destroy(); 
+    header("location:../login.php?logout");
+    exit();}
+    // } -->
+
 
 <main class="flex-shrink-0">
     <div class="container">
