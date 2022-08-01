@@ -1,11 +1,16 @@
-<?php 
+<?php
+
+use Microblog\ControleDeAcesso;
+use Microblog\Usuario;
+
 require_once "../inc/cabecalho-admin.php";
 
-
-
-
-
-
+$usuario = new Usuario;
+$usuario->setId($_SESSION['id']);
+$dados = $usuario->listarUm();
+if(isset($_GET['perfil_atualizado'])) {
+    $feedback = 'Perfil atualizado com sucesso!';
+}
 
 
 ?>
@@ -13,7 +18,12 @@ require_once "../inc/cabecalho-admin.php";
 
 <article class="p-5 my-4 rounded-3 bg-white shadow">
     <div class="container-fluid py-1">        
-        <h2 class="display-4"><?='Olá ' . $_SESSION['nome'] . '!'?></h2>
+        <h2 class="display-4"><?='Olá ' .  $dados['nome'] . '!'?></h2>
+        <?php if(isset($feedback)){?>
+				<p class="my-2 alert alert-warning text-center">
+					<?=$feedback?>
+				</p>
+        <?php } ?>
         <p class="fs-5">Você está no <b>painel de controle e administração</b> do
 		site Microblog e seu <b>nível de acesso</b> é <span class="badge bg-dark"> <?=$_SESSION['tipo']?></span>.</p>
         <hr class="my-4">
@@ -35,7 +45,7 @@ require_once "../inc/cabecalho-admin.php";
 </article>
     <?php } else if ($_SESSION['tipo'] == 'admin')  { ?>
         <div class="d-grid gap-2 d-md-block text-center">
-            <a class="btn btn-dark bg-gradient btn-lg" href="meu-perfil.php">
+            <a class="btn btn-dark bg-gradient btn-lg" href="meu-perfil.php?id=<?=$_SESSION['id']?>">
                 <i class="bi bi-person"></i> <br>
                 Meu perfil
             </a>
