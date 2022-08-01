@@ -10,7 +10,7 @@ final class Usuario {
     private string $tipo;
     private PDO $conexao;
 
-    public function __construct()
+    public function __construct() //método construtor é utilizado como uma configuração da classe
     {
         $this->conexao = Banco::conecta();
     }

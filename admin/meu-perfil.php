@@ -10,6 +10,9 @@ $dados = $usuario->listarUm();
 
 if(isset($_POST['atualizar'])) {
 	$usuario->setNome( $_POST['nome'] );
+
+	// Atualizamos o valor da variável de sessão ao pegar o novo nome - 2 solução
+	$_SESSION['nome'] = $usuario->getNome();
     $usuario->setEmail( $_POST['email'] );
 	$usuario->setTipo($_SESSION['tipo']);
 
