@@ -4,6 +4,11 @@ use Microblog\Noticia;
 
 require_once "../inc/cabecalho-admin.php";
 $noticia = new Noticia;
+//capturando o id e o tipo do usuário logado e associando estes valores às propriedades do objeto usuário//
+$noticia->usuario->setId($_SESSION['id']);
+$noticia->usuario->setId($_SESSION['tipo']);
+$noticia->listar();
+
 ?>
 
 
