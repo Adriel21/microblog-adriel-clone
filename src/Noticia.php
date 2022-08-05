@@ -82,7 +82,7 @@ final class Noticia {
         $nome = $arquivo['name'];
                   // Acessando os dados de acesso temporário
           
-          $temporario = $arquivo['tmp_name'];
+        $temporario = $arquivo['tmp_name'];
         // Definimos a paste de destino junto com o nome do arquivo
         $destino = "../imagem/".$nome;
 
