@@ -1,5 +1,9 @@
-<?php 
+<?php
+
+use Microblog\Noticia;
+
 require_once "../inc/cabecalho-admin.php";
+$noticia = new Noticia;
 ?>
 
 

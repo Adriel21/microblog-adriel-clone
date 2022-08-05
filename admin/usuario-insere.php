@@ -1,20 +1,19 @@
-<?php ;
-Use Microblog\Usuario;
+<?php
+use Microblog\Usuario;
 require_once "../inc/cabecalho-admin.php";
+$sessao->verificaAcessoAdmin();
 
-if(isset($_POST['inserir']) ){
+if( isset($_POST['inserir']) ){
 	$usuario = new Usuario;
-    $usuario->setNome( $_POST['nome'] );
-    $usuario->setEmail( $_POST['email'] );
-    $usuario->setTipo( $_POST['tipo'] );
-	
-	$usuario->setSenha( $usuario->codificaSenha($_POST['senha']));
-	echo $usuario->getSenha();
+	$usuario->setNome($_POST['nome']);
+	$usuario->setEmail($_POST['email']);
+	$usuario->setTipo($_POST['tipo']);
+	$usuario->setSenha(  $usuario->codificaSenha($_POST['senha'])  );
+	// echo $usuario->getSenha();
 
 	$usuario->inserir();
-	header(("location:usuarios.php"));
+	header("location:usuarios.php");
 }
-$sessao->verificaAcessoAdmin();
 
 ?>
 

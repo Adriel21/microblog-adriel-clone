@@ -1,26 +1,15 @@
 <?php
-
 use Microblog\Categoria;
-use Microblog\ControleDeAcesso;
 require_once "../inc/cabecalho-admin.php";
-
-$sessao = new ControleDeAcesso;
 $sessao->verificaAcessoAdmin();
 
-if(isset($_POST['inserir'])) {
+if(isset($_POST['inserir'])){
 	$categoria = new Categoria;
 	$categoria->setNome($_POST['nome']);
-
 	$categoria->inserir();
-
-header('location:categorias.php');
+	header("location:categorias.php");
 }
-
-
-
 ?>
-
-
 <div class="row">
 	<article class="col-12 bg-white rounded shadow my-1 py-4">
 		
