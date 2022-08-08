@@ -6,7 +6,7 @@ require_once "../vendor/autoload.php";
 $sessao = new ControleDeAcesso;
 
 // Executamos verificaAcesso para checar se tem alguém logado
-$sessao->verificaAcesso();
+// $sessao->verificaAcesso();
 
 // Se o parâmetro ?sair existir, então faça o logout
 if(isset($_GET['sair'])) $sessao->logout();

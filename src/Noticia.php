@@ -33,6 +33,10 @@ final class Noticia {
         $this->conexao = $this->usuario->getConexao();
     }
 
+    public function formataData($data){
+        return date("d/m/Y", strtotime($data));
+    }
+
     public function inserir():void {
         $sql = "INSERT INTO noticias(titulo, texto, resumo, imagem, 
         destaque, usuario_id, categoria_id) 
@@ -94,11 +98,31 @@ final class Noticia {
         // Se o tipo de usuário logado for admin
         if($this->usuario->getTipo() === 'admin'){
             // Então ele poderá acessar as notícias de todo mundo
-            $sql = "";
+            $sql = "SELECT noticias.id, noticias.titulo, noticias.data, noticias.destaque, usuarios.nome AS autor FROM noticias LEFT JOIN usuarios ON noticias.usuario_id = usuarios.id ORDER BY data DESC";
+            // Se utilizarmos o INNER NOIN para uma notícia em que o usuário foi apagado e está exibindo result null para user, o resultado do inner join não trará as noticias sem usuários pois não satisfazem as duas condições. Se utilizarmos LEFT JOIN, ele trará tudo mesmo que não haja usuário cadastrado
         } else {
             // Se não (ou seja, é um editor), este usuário (editor) poderá acessar SOMENTE suas próprias notícias
+            $sql = "SELECT id, titulo, data, destaque FROM noticias WHERE usuario_id = :usuario_id ORDER BY data DESC";
         }
-    }
+
+        try {
+            $consulta = $this->conexao->prepare($sql);
+
+            // Se não for um usuário admin, então trate o parâmetro de usuário_id
+           if ($this->usuario->getTipo() !== 'admin') {
+                $consulta->bindValue(":usuario_id", $this->usuario->getId(), PDO::PARAM_INT);
+           }
+           //Utilizamos o método getId porque estamos fazendo o acesso da class usuario através de associação e o atributo id da classe usuário é privado
+           // Quando pegamos o parametro de uma função e não de um atributo, podemos usar o bindValue no lugar do bindParam
+
+           $consulta->execute();
+           $resultado = $consulta->fetchAll(PDO::FETCH_ASSOC);
+            // O bindParam ou bindValue só ocorre se há parâmetros como :usuario_id
+        } catch (Exception $erro) {
+            die("Erro: ". $erro->getMessage());
+        }  
+        return $resultado;
+    } // Final listar
 
   
 
@@ -199,5 +223,25 @@ final class Noticia {
     public function setId(int $id)
     {
         $this->id = $id;
+    }
+
+    /**
+     * Get the value of data
+     */ 
+    public function getData()
+    {
+        return $this->data;
+    }
+
+    /**
+     * Set the value of data
+     *
+     * @return  self
+     */ 
+    public function setData($data)
+    {
+        $this->data = $data;
+
+        return $this;
     }
 }
