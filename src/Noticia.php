@@ -90,7 +90,7 @@ final class Noticia {
         // Definimos a paste de destino junto com o nome do arquivo
         $destino = "../imagem/".$nome;
 
-        // Usamos a função abaixo para pegar da área temporária e enviar para a paste de destino (com o nome do arquivo)
+        // Usamos a função abaixo para pegar da área temporária e enviar para a pasta de destino (com o nome do arquivo)
         move_uploaded_file($temporario, $destino);
     }
 
@@ -123,6 +123,80 @@ final class Noticia {
         }  
         return $resultado;
     } // Final listar
+
+    public function listarUm():array {
+        if($this->usuario->getTipo() === 'admin'){
+            $sql = "SELECT titulo, texto, resumo, imagem, usuario_id, categoria_id, destaque FROM noticias WHERE id = :id";
+        } else {
+       
+            $sql = "SELECT titulo, texto, resumo, imagem, usuario_id, categoria_id, destaque FROM noticias WHERE id = :id AND usuario_id = :usuario_id";
+        }
+
+        try {
+            $consulta = $this->conexao->prepare($sql);
+                   //Parâmetro id da noticia (Para todos os usuários)
+            $consulta->bindParam(":id", $this->id, PDO::PARAM_INT);
+      
+           if ($this->usuario->getTipo() !== 'admin') {
+            // Parâmetro Usuário Id trazido a partir do getter
+            $consulta->bindValue(":usuario_id", $this->usuario->getId(), PDO::PARAM_INT);
+             }
+
+           $consulta->execute();
+           $resultado = $consulta->fetch(PDO::FETCH_ASSOC);
+    
+        } catch (Exception $erro) {
+            die("Erro: ". $erro->getMessage());
+        }  
+        return $resultado;
+    } // Final listar
+
+
+    public function atualizar():void {
+        if($this->usuario->getTipo() === 'admin'){
+            $sql = "UPDATE noticias SET titulo = :titulo, texto = :texto, resumo = :resumo, imagem = :imagem, categoria_id = :categoria_id, destaque = :destaque WHERE id = :id";
+        } else {
+       
+            $sql = "UPDATE noticias SET titulo = :titulo, texto = :texto, resumo = :resumo, imagem = :imagem, categoria_id = :categoria_id, destaque = :destaque WHERE id = :id AND usuario_id = :usuario_id";
+        }
+
+        try {
+            $consulta = $this->conexao->prepare($sql);
+            $consulta->bindParam(":id", $this->id, PDO::PARAM_INT);
+            $consulta->bindParam(":titulo", $this->titulo, PDO::PARAM_STR);
+            $consulta->bindParam(":texto", $this->texto, PDO::PARAM_STR);
+            $consulta->bindParam(":resumo", $this->resumo, PDO::PARAM_STR);
+            $consulta->bindParam(":imagem", $this->imagem, PDO::PARAM_STR);
+            $consulta->bindParam(":categoria_id", $this->categoriaId, PDO::PARAM_INT);
+            $consulta->bindParam(":destaque", $this->destaque, PDO::PARAM_STR);
+      
+           if ($this->usuario->getTipo() !== 'admin') {
+            // Parâmetro Usuário Id trazido a partir do getter
+            $consulta->bindValue(":usuario_id", $this->usuario->getId(), PDO::PARAM_INT);
+             }
+
+           $consulta->execute();
+         
+    
+        } catch (Exception $erro) {
+            die("Erro: ". $erro->getMessage());
+        }  
+       
+    } // Final atualizar
+
+
+    public function excluir():void {
+        $sql = "DELETE FROM noticias WHERE id = :id";
+        
+        try {
+            $consulta = $this->conexao->prepare($sql);
+            $consulta->bindParam(":id", $this->id, PDO::PARAM_INT);
+            $consulta->execute();
+        } catch (Exception $erro) {
+            die("Erro> ". $erro->getMessage());
+        }
+    }
+
 
   
 
@@ -222,7 +296,7 @@ final class Noticia {
 
     public function setId(int $id)
     {
-        $this->id = $id;
+        $this->id = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
     }
 
     /**

@@ -36,6 +36,7 @@ $listaDeNoticias = $noticia->listar();
                         <th>Título</th>
                         <th>Data</th>
                         <th>Autor</th>
+						<th class="text-center">Destaque</th>
 						<th class="text-center">Operações</th>
 					</tr>
 				</thead>
@@ -47,14 +48,15 @@ $listaDeNoticias = $noticia->listar();
                         <td><?=$noticias['titulo']?></td>
                         <td><?=date('d/m/Y H:i',  strtotime($noticias['data']))?></td>
 						<td><?=Utilitarios::limitaCaractere($noticias['autor'])?></td>
+						<td class="text-center"><?=$noticias['destaque']?></td>
 						<td class="text-center">
 							<a class="btn btn-warning" 
-							href="noticia-atualiza.php?=<?=$noticias['id']?>">
+							href="noticia-atualiza.php?id=<?=$noticias['id']?>">
 							<i class="bi bi-pencil"></i> Atualizar
 							</a>
 						
 							<a class="btn btn-danger excluir" 
-							href="noticia-exclui.php?=<?=$noticias['id']?>">
+							href="noticia-exclui.php?id=<?=$noticias['id']?>">
 							<i class="bi bi-trash"></i> Excluir
 							</a>
 						</td>
@@ -86,12 +88,12 @@ $listaDeNoticias = $noticia->listar();
 				<td><?=$noticias['data']?></td>
 				<td class="text-center">
 					<a class="btn btn-warning" 
-					href="noticia-atualiza.php?=<?=$noticias['id']?>">
+					href="noticia-atualiza.php?id=<?=$noticias['id']?>">
 					<i class="bi bi-pencil"></i> Atualizar
 					</a>
 				
 					<a class="btn btn-danger excluir" 
-					href="noticia-exclui.php?=<?=$noticias['id']?>">
+					href="noticia-exclui.php?id=<?=$noticias['id']?>">
 					<i class="bi bi-trash"></i> Excluir
 					</a>
 				</td>
