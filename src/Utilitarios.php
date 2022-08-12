@@ -7,5 +7,11 @@ abstract class Utilitarios {
         var_dump($dados);
         echo "</pre>";
     }
+
+    public static function limitaCaractere($dados) {
+        return mb_strimwidth($dados, 0, 20, " ...");
+    }
+    
+    
 }
 

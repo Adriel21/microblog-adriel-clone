@@ -46,7 +46,7 @@ $listaDeNoticias = $noticia->listar();
 					<tr>
                         <td><?=$noticias['titulo']?></td>
                         <td><?=date('d/m/Y H:i',  strtotime($noticias['data']))?></td>
-						<td><?=$noticias['autor']?></td>
+						<td><?=Utilitarios::limitaCaractere($noticias['autor'])?></td>
 						<td class="text-center">
 							<a class="btn btn-warning" 
 							href="noticia-atualiza.php?=<?=$noticias['id']?>">
