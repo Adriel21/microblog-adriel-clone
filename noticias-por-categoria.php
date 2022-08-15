@@ -1,35 +1,43 @@
-<?php 
+<?php
+
+use Microblog\Categoria;
+use Microblog\Noticia;
+
 require_once "inc/cabecalho.php";
+
+$categoria = new Categoria;
+$noticia = new Noticia;
+$noticia->setCategoriaId($_GET['id']);
+
+$dados = $noticia->listarPorCategorias();
+
+
 ?>
 
 
 <div class="row my-1 mx-md-n1">
 
     <article class="col-12">
-        <h2 class=" ">Notícias sobre <span class="badge bg-primary">categoria</span> </h2>
-        
+        <h2 class=" ">Notícias sobre <span class="badge bg-primary"><?=$dados['categoria']?></span> </h2>
+     
         <div class="row my-1">
             <div class="col-12 px-md-1">
                 <div class="list-group">
+               
                     <a href="noticia.php" class="list-group-item list-group-item-action">
-                        <h3 class="fs-6">Título da notícia</h3>
-                        <p><time>12/12/2012</time> - Autor da notícia</p>
-                        <p>Resumo da notícia</p>
+                    <?php foreach ($dados as $dado) { ?>
+                        <h3 class="fs-6"><?=$dados['titulo']?></h3>
+                        <p><time><?=$dados['data']?></time> - <?=$dados['autor']?></p>
+                        <p><?=$dados['resumo']?></p>
+                        <?php } ?>
                     </a>
-                    <a href="noticia.php" class="list-group-item list-group-item-action">
-                        <h3 class="fs-6">Título da notícia</h3>
-                        <p><time>12/12/2012</time> - Autor da notícia</p>
-                        <p>Resumo da notícia</p>
-                    </a>
-                    <a href="noticia.php" class="list-group-item list-group-item-action">
-                        <h3 class="fs-6">Título da notícia</h3>
-                        <p><time>12/12/2012</time> - Autor da notícia</p>
-                        <p>Resumo da notícia</p>
-                    </a>
-                    
+                   
                 </div>
             </div>
         </div>
+                    
+        
+          
 
 
     </article>
@@ -37,7 +45,7 @@ require_once "inc/cabecalho.php";
 
 </div>        
         
-          
+<?php include_once "inc/todas.php"; ?>       
 
 <?php 
 require_once "inc/rodape.php";

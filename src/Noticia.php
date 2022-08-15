@@ -279,6 +279,36 @@ final class Noticia {
         return $resultado;
     }
 
+    public function listarDetalhes():array {
+        $sql = "SELECT noticias.id, noticias.titulo, noticias.data, noticias.texto, noticias.imagem, usuarios.nome AS autor FROM noticias LEFT JOIN usuarios ON noticias.usuario_id = usuarios.id WHERE noticias.id = :id";
+
+
+         try {
+            $consulta = $this->conexao->prepare($sql);
+            $consulta->bindParam(":id", $this->id, PDO::PARAM_INT);
+            $consulta->execute();
+            $resultado = $consulta->fetch(PDO::FETCH_ASSOC);
+        } catch (Exception $erro) {
+            die("Erro: ". $erro->getMessage());
+        }
+        return $resultado;
+    }
+
+    public function listarPorCategorias():array {
+        $sql = "SELECT noticias.id, noticias.titulo, noticias.data, noticias.resumo, usuarios.nome AS autor, categorias.nome AS categoria FROM noticias LEFT JOIN usuarios ON noticias.usuario_id = usuarios.id LEFT JOIN categorias ON noticias.categoria_id = categorias.id WHERE categoria_id = :categoria_id";
+
+         try {
+            $consulta = $this->conexao->prepare($sql);
+            $consulta->bindParam(":categoria_id", $this->categoriaId, PDO::PARAM_INT);
+            $consulta->execute();
+            $resultado = $consulta->fetch(PDO::FETCH_ASSOC);
+        } catch (Exception $erro) {
+            die("Erro: ". $erro->getMessage());
+        }
+        return $resultado;
+    }
+
+
 
 
     /* 
