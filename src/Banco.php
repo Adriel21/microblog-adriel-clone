@@ -3,7 +3,7 @@ namespace Microblog;
 use PDO, Exception;
 
 abstract class Banco {
-    private static string $servidor = "suniow89";
+    private static string $servidor = "localhost";
     private static string $usuario = "suniow89_adriel";
     private static string $senha = "440Adriel@";
     private static string $banco = "suniow89_adriel";
