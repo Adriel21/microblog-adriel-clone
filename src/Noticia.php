@@ -11,6 +11,7 @@ final class Noticia {
     private string $imagem;
     private string $destaque;
     private int $categoriaId;
+    private string $termo;
 
     /* Criando uma propriedade do tipo Usuario, ou seja, 
     a partir de uma classe que criamos anteriormente,
@@ -310,7 +311,20 @@ final class Noticia {
 
 
 
+    public function busca():array {
+        $sql = "SELECT titulo, data, id, resumo FROM noticias WHERE titulo LIKE :termo OR texto LIKE :termo OR resumo LIKE :termo ORDER BY data DESC";
 
+    
+        try {
+            $consulta = $this->conexao->prepare($sql);
+            $consulta->bindValue(":termo", '%'.$this->termo.'%', PDO::PARAM_STR);
+            $consulta->execute();
+            $resultado = $consulta->fetchAll(PDO::FETCH_ASSOC);
+        } catch (Exception $erro) {
+            die("Erro: ". $erro->getMessage());
+        }
+        return $resultado;
+    }
 
 
     /* 
@@ -410,5 +424,24 @@ final class Noticia {
     public function setId(int $id)
     {
         $this->id = $id;
+    }
+
+    /**
+     * Get the value of termo
+     */ 
+    public function getTermo()
+    {
+        return $this->termo;
+    }
+
+    /**
+     * Set the value of termo
+     *
+     * @return  self
+     */ 
+    public function setTermo(string $termo)
+    {
+        $this->termo = filter_var($termo, FILTER_SANITIZE_SPECIAL_CHARS);
+
     }
 }
