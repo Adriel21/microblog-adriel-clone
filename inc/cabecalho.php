@@ -1,6 +1,6 @@
 <?php
 // Inicialização do Output Buffer
-// Gerenciamento da memória de saídas/redirecionamentos - vamos pedir que o PHP monitore
+// Gerenciamento da memória de saídas/redirecionamentos - vamos pedir que o PHP monitore - facilita os redirecionamentos quando existem muitos
 ob_start();
 
 use Microblog\Categoria;
